@@ -8,6 +8,10 @@ const mcuSchema = new mongoose.Schema({
     unique: true,
     lowercase: true,
   },
+  user: {
+    type: String,
+    required: true,
+  },
   createAt: {
     type: Date,
     default: Date.now(),

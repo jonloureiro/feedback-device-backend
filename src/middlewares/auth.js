@@ -10,7 +10,7 @@ module.exports = async (ctx, next) => {
   try {
     const decoded = jwt.verify(validToken, secret);
     ctx.token = decoded.id;
-    next();
+    await next();
   } catch (err) {
     throw error(401, 'Token inválida');
   }
