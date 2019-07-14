@@ -6,9 +6,7 @@ const { error } = require('../../lib');
 const { secret } = require('../../config');
 
 
-const token = mcu => ({
-  token: jwt.sign({ id: mcu.name }, secret, {}),
-});
+const token = mcu => jwt.sign({ id: mcu.name }, secret, {});
 
 const checkMcu = async (name) => {
   if (await Mcu.findOne({ name })) return true;

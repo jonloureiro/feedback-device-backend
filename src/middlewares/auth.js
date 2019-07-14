@@ -4,14 +4,23 @@ const { error, formattedToken } = require('../lib');
 const { secret } = require('../config');
 
 
-module.exports = async (ctx, next) => {
-  const validToken = formattedToken(ctx.header);
-  if (!validToken) throw error(401, 'Token error');
+const verify = async (token, ctx, next) => {
   try {
-    const decoded = jwt.verify(validToken, secret);
+    const decoded = jwt.verify(token, secret);
     ctx.token = decoded.id;
-    await next();
   } catch (err) {
     throw error(401, 'Token inválida');
   }
+  await next();
+};
+
+module.exports = async (ctx, next) => {
+  const token = ctx.cookies.get('token');
+  await verify(token, ctx, next);
+};
+
+module.exports.bearer = async (ctx, next) => {
+  const token = formattedToken(ctx.header);
+  if (!token) throw error(401, 'Header não formatado');
+  await verify(token, ctx, next);
 };

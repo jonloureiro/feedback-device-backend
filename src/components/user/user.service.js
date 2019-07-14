@@ -6,9 +6,7 @@ const { error } = require('../../lib');
 const { secret } = require('../../config');
 
 
-const token = user => ({
-  token: jwt.sign({ id: user.email }, secret, { expiresIn: 604800 }),
-});
+const token = user => jwt.sign({ id: user.email }, secret, { expiresIn: 604800 });
 
 const checkUser = async (email) => {
   if (await User.findOne({ email })) return true;

@@ -14,9 +14,9 @@ router
     ctx.status = 201;
   })
   .post('/connect', async (ctx) => {
-    ctx.body = await connect(ctx.request.body);
+    ctx.body = { token: await connect(ctx.request.body) };
   })
-  .use('/', auth)
+  .use('/', auth.bearer)
   .post('/', async (ctx) => {
     ctx.body = await data(ctx.request.body);
     ctx.status = 201;
