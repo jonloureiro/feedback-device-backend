@@ -3,7 +3,7 @@ const Router = require('koa-router');
 const { register, login } = require('./user.service');
 
 
-const prefix = '/auth';
+const prefix = '/user';
 const router = new Router({ prefix });
 
 router
