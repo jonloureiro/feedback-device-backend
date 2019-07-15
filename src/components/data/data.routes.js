@@ -1,6 +1,6 @@
 const Router = require('koa-router');
 
-const { save } = require('./data.service');
+const { save, take } = require('./data.service');
 const { auth } = require('../../middlewares');
 
 
@@ -12,6 +12,10 @@ router
   .post('/mcu', async (ctx) => {
     await save(ctx.request.body, ctx.token);
     ctx.status = 201;
+  })
+  .use('/', auth())
+  .get('/', async (ctx) => {
+    ctx.body = await take(ctx.token);
   });
 
 
