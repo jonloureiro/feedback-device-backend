@@ -1,5 +1,5 @@
 const Data = require('./data.model');
-const { checkMcu } = require('../mcu/mcu.service');
+const { checkMcu } = require('../mcu');
 const { error } = require('../../lib');
 
 

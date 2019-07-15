@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 
 const Mcu = require('./mcu.model');
-const { checkUser } = require('../user/user.service');
+const { checkUser } = require('../user');
 const { error } = require('../../lib');
 const { secret } = require('../../config');
 

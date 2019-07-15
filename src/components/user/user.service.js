@@ -28,4 +28,8 @@ const login = async ({ email, password }) => {
 };
 
 
-module.exports = { checkUser, login, register };
+module.exports = {
+  checkUser,
+  login,
+  register,
+};
