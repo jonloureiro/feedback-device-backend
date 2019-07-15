@@ -28,6 +28,7 @@ const connect = async ({ name }) => {
 
 
 module.exports = {
+  checkMcu,
   register,
   connect,
 };
