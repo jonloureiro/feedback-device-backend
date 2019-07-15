@@ -16,6 +16,10 @@ router
     const token = await login(ctx.request.body);
     ctx.cookies.set('token', token);
     ctx.status = 200;
+  })
+  .post('/logout', async (ctx) => {
+    ctx.cookies.set('token');
+    ctx.status = 200;
   });
 
 
