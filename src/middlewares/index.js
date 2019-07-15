@@ -10,5 +10,5 @@ module.exports = (app) => {
   app.use(bodyParser());
 };
 
-module.exports.auth = auth;
-module.exports.auth.bearer = bearer;
+module.exports.auth = () => auth;
+module.exports.auth.bearer = () => bearer;

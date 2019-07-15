@@ -26,11 +26,8 @@ const connect = async ({ name }) => {
   return token(mcu);
 };
 
-const data = body => body;
-
 
 module.exports = {
   register,
   connect,
-  data,
 };
