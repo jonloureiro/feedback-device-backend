@@ -3,10 +3,10 @@ const jwt = require('jsonwebtoken');
 
 const User = require('./user.model');
 const { error } = require('../../lib');
-const { secret } = require('../../config');
+const { secret, expiresIn } = require('../../config');
 
 
-const token = user => jwt.sign({ id: user.email }, secret, { expiresIn: 604800 });
+const token = user => jwt.sign({ id: user.email }, secret, { expiresIn });
 
 const checkUser = async (email) => {
   if (await User.findOne({ email })) return true;
