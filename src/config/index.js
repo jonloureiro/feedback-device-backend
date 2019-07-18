@@ -5,4 +5,5 @@ module.exports = {
   secret: process.env.SECRET || 'secret',
   expiresIn: process.env.EXPIRES_IN || 604800,
   keys: process.env.KEYS || ['some secret hurr'],
+  credentials: process.env.CREDENTIALS || true,
 };
