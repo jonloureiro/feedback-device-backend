@@ -1,3 +1,8 @@
+const url = require('url');
+
+const mqttURL = url.parse(process.env.CLOUDMQTT_URL || 'mqtt://raoni:123456@localhost:1883');
+const mqttAUTH = (mqttURL.auth || ':').split(':');
+
 module.exports = {
   port: process.env.PORT || 3030,
   mongodb_uri: process.env.MONGODB_URI || 'mongodb://localhost:27017/museu',
@@ -7,14 +12,12 @@ module.exports = {
   keys: process.env.KEYS || ['some secret hurr'],
   credentials: process.env.CREDENTIALS || true,
   mqtt: {
-    broker_url: process.env.BROKER_URL || 'mqtt://localhost',
+    broker_url: mqttURL.hostname,
     topic: process.env.TOPIC || 'feedback',
     options: {
-      clientId: process.env.CLIENT_ID || 'Nodejs',
-      port: process.env.MQTT_PORT || 1883,
-      username: process.env.MQTT_USER || 'raoni',
-      password: process.env.MQTT_PASS || '123456',
-      keepalive: process.env.KEEP_ALIVE || 60,
+      port: mqttURL.port,
+      username: mqttAUTH[0],
+      password: mqttAUTH[1],
     },
   },
 };
