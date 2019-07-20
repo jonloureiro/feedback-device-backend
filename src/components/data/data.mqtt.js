@@ -10,14 +10,15 @@ module.exports = () => {
 
   client.on('connect', () => {
     client.subscribe(topic, (err) => {
-      if (err) console.log(err);
+      if (err) console.log(`TRATAR O ERRO CORRETAMENTE \n${err}`);
     });
   });
 
   client.on('message', async (channel, payload) => {
     const message = payload.toString();
     if (myMessage !== message && channel === topic) {
-      const [body, mcu] = message.split(' ');
+      const [value, mcu] = message.split(' ');
+      const body = { value, mcu };
       try {
         await save(body, mcu);
         myMessage = '201 Created';
