@@ -10,9 +10,9 @@ module.exports = {
     broker_url: process.env.BROKER_URL || 'mqtt://localhost',
     topic: process.env.TOPIC || 'feedback',
     options: {
-      clientId: process.env.CLIENT_ID || 'MyMQTT',
+      clientId: process.env.CLIENT_ID || 'Nodejs',
       port: process.env.MQTT_PORT || 1883,
-      username: process.env.MQTT_USER || 'nodejs',
+      username: process.env.MQTT_USER || 'raoni',
       password: process.env.MQTT_PASS || '123456',
       keepalive: process.env.KEEP_ALIVE || 60,
     },
