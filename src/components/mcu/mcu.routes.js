@@ -14,7 +14,7 @@ router
     ctx.status = 201;
   })
   .post('/connect', async (ctx) => {
-    ctx.body = { token: await connect(ctx.request.body) };
+    ctx.body = await connect(ctx.request.body);
   });
 
 
