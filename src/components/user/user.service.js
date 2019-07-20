@@ -15,9 +15,12 @@ const checkUser = async (email) => {
 
 const register = async ({ email, password }) => {
   if (await checkUser(email)) throw error(400, 'E-mail já cadastrado');
-  const user = await User.create({ email, password });
-  if (!user) throw error(400, 'Erro ao se cadastrar');
-  return token(user);
+  try {
+    const user = await User.create({ email, password });
+    return token(user);
+  } catch (err) {
+    throw error(400, 'Erro ao se cadastrar');
+  }
 };
 
 const login = async ({ email, password }) => {

@@ -6,8 +6,11 @@ const { error } = require('../../lib');
 
 const save = async (body, mcu) => {
   if (!await checkMcu(mcu)) throw error(401, 'MCU não autorizado');
-  const data = await Data.create(body);
-  if (!data) throw error(400, 'Erro ao registrar dados');
+  try {
+    await Data.create(body);
+  } catch (err) {
+    throw error(400, 'Erro ao registrar dados');
+  }
 };
 
 const take = async (user) => {

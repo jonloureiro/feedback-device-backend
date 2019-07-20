@@ -16,8 +16,11 @@ const checkMcu = async (name) => {
 const register = async ({ name }, email) => {
   if (await checkMcu(name)) throw error(400, 'MCU já cadastrado');
   if (!await checkUser(email)) throw error(401, 'Usuário não autorizado');
-  const mcu = await Mcu.create({ name, user: email });
-  if (!mcu) throw error(400, 'Erro ao cadastrar MCU');
+  try {
+    await Mcu.create({ name, user: email });
+  } catch (err) {
+    throw error(400, 'Erro ao cadastrar MCU');
+  }
 };
 
 const connect = async ({ name }) => {
