@@ -2,16 +2,14 @@ const mongoose = require('../../database');
 
 
 const dataSchema = new mongoose.Schema({
-  three: {
+  value: {
     type: Number,
     required: true,
+    min: 0,
+    max: 2,
   },
-  two: {
-    type: Number,
-    required: true,
-  },
-  one: {
-    type: Number,
+  mcu: {
+    type: String,
     required: true,
   },
   createAt: {
