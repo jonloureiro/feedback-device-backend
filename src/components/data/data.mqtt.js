@@ -1,7 +1,7 @@
 const { connect } = require('mqtt');
 
 const { save } = require('./data.service');
-const { mqtt: { topic, broker_url: url, options } } = require('../../config');
+const { mqtt: { url, topic, options } } = require('../../config');
 
 
 module.exports = () => {
