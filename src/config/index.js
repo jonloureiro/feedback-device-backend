@@ -1,9 +1,11 @@
 const url = require('url');
 
+
 const {
   protocol, hostname, auth, port,
 } = url.parse(process.env.MQTT_URL || 'mqtt://raoni:123456@localhost:1883');
-const mqttAUTH = (auth || ':').split(':');
+const [username, password] = (auth || ':').split(':');
+
 
 module.exports = {
   port: process.env.PORT || 3030,
@@ -19,8 +21,8 @@ module.exports = {
     options: {
       clientId: process.env.CLIENT_ID || 'Nodejs',
       port,
-      username: mqttAUTH[0],
-      password: mqttAUTH[1],
+      username,
+      password,
       keepalive: process.env.KEEP_ALIVE || 60,
     },
   },
