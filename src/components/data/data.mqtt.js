@@ -1,9 +1,12 @@
 const { connect } = require('mqtt');
 
+const { save } = require('./data.service');
 const { mqtt: { topic, broker_url: url, options } } = require('../../config');
+
 
 module.exports = () => {
   let client = connect(url, options);
+  let myMessage = '';
 
   client.on('connect', () => {
     client.subscribe(topic, (err) => {
@@ -11,8 +14,23 @@ module.exports = () => {
     });
   });
 
-  client.on('message', (channel, message) => {
-    if (channel === topic) console.log(message.toString());
+  client.on('message', async (channel, payload) => {
+    const message = payload.toString();
+    if (myMessage !== message && channel === topic) {
+      const [body, mcu] = message.split(' ');
+      try {
+        await save(body, mcu);
+        myMessage = '201 Created';
+      } catch (err) {
+        myMessage = `${err.status} ${err.message}`;
+      } finally {
+        client.publish(channel, myMessage);
+      }
+    }
+  });
+
+  client.on('error', (err) => {
+    console.log(`TRATAR O ERRO CORRETAMENTE \n${err}`);
   });
 
   client.on('reconnect', () => {
