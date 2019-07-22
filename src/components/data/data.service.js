@@ -2,12 +2,17 @@ const Data = require('./data.model');
 const { checkMcu } = require('../mcu');
 const { checkUser } = require('../user');
 const { error } = require('../../lib');
+const { node_env: env } = require('../../config');
 
 
-const save = async ({ value }, mcu) => {
+const save = async ({ value, createAt }, mcu) => {
   if (!await checkMcu(mcu)) throw error(401, 'MCU não autorizado');
   try {
-    await Data.create({ value, mcu });
+    if (env === 'development') {
+      await Data.create({ value, mcu, createAt });
+    } else {
+      await Data.create({ value, mcu });
+    }
   } catch (err) {
     throw error(400, 'Erro ao registrar dados');
   }

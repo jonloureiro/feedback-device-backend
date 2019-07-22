@@ -8,6 +8,7 @@ const [username, password] = (auth || ':').split(':');
 
 
 module.exports = {
+  node_env: process.env.NODE_ENV || 'development',
   port: process.env.PORT || 3030,
   mongodb_uri: process.env.MONGODB_URI || 'mongodb://localhost:27017/museu',
   saltRounds: process.env.SALT_ROUNDS || 10,
