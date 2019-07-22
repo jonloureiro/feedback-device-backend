@@ -18,7 +18,7 @@ module.exports = () => {
     const message = payload.toString();
     if (myMessage !== message && channel === topic) {
       const [value, mcu] = message.split(' ');
-      const body = { value, mcu };
+      const body = { value };
       try {
         await save(body, mcu);
         myMessage = '201 Created';
