@@ -23,6 +23,7 @@ const take = async (user) => {
   try {
     const date = new Date();
     // getMonth está devolvendo -1, logo janeiro está com 0;
+    // buscar os dados de um mês
     const year = (date.getMonth() === 0) ? date.getFullYear() - 1 : date.getFullYear();
     const month = (date.getMonth() === 0) ? 12 : date.getMonth();
     const today = date.getDate();
@@ -35,13 +36,14 @@ const take = async (user) => {
 
     const response = data.reduce((acc, cur) => {
       const objDate = new Date(cur.createAt);
-      // const objMonth = objDate.getMonth();
+      const objMonth = objDate.getMonth();
       const objDay = objDate.getDate();
       let attr = '';
 
-      // COMPARAR PRIMEIRO O MÊS!
+      // console.log(`${objDay} > ${today - 7}`);
 
-      if (objDay === today) attr = 'today';
+      if (!objMonth === month) attr = 'month';
+      else if (objDay === today) attr = 'today';
       else if (objDay > today - 7) attr = 'week';
       else attr = 'month';
 
