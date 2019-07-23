@@ -23,7 +23,7 @@ const take = async (user) => {
   try {
     const date = new Date();
     // getMonth está devolvendo -1, logo janeiro está com 0;
-    // buscar os dados de um mês
+    // buscar os dados de um mês atrás, logo não precisad e colocar -1
     const year = (date.getMonth() === 0) ? date.getFullYear() - 1 : date.getFullYear();
     const month = (date.getMonth() === 0) ? 12 : date.getMonth();
     const today = date.getDate();
@@ -40,26 +40,16 @@ const take = async (user) => {
       const objDay = objDate.getDate();
       let attr = '';
 
-      // console.log(`${objDay} > ${today - 7}`);
-
-      if (!objMonth === month) attr = 'month';
+      // hoje: 23 de julho
+      // semana: 17 de julho até 22 de julho (hoje não incluso)
+      // mês: 23 de junho até 16 de julho (semana não inclusa)
+      // TODO: arrumar semana em que parte está em um mês e parte no outro mês
+      if (objMonth !== month) attr = 'month';
       else if (objDay === today) attr = 'today';
       else if (objDay > today - 7) attr = 'week';
       else attr = 'month';
 
-      switch (cur.value) {
-        case 0:
-          acc[attr][0] += 1;
-          break;
-        case 1:
-          acc[attr][1] += 1;
-          break;
-        case 2:
-          acc[attr][2] += 1;
-          break;
-        default:
-          break;
-      }
+      acc[attr][cur.value] += 1;
 
       return acc;
     }, {
