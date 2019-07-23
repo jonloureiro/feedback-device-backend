@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
 const axios = require('axios');
 const { port } = require('../config');
 
@@ -16,15 +17,36 @@ getToken(({ data: token }) => {
   const config = { headers: { Authorization: `Bearer ${token}` } };
   const date = new Date();
   const year = date.getFullYear();
-  let month = date.getMonth();
-  let day = date.getDate();
+  const month = date.getMonth() + 1;
+  const day = date.getDate();
 
-  for (let i = 0; i < 15; i += 1) {
-    if (i > 2 && i < 10) {
-      if (day > 0) day -= 1;
-      else { day = 30; month -= 1; }
-    } else if (i === 10) month -= 1;
-    const createAt = new Date(`${year},${month},${day}`);
+  let i;
+  for (i = 0; i < 5; i += 1) {
+    const createAt = new Date(`${year},${month},${day}`).toISOString();
+    const data = { value: i % 3, createAt };
+    axios.post(`${url}/data/mcu`, data, config)
+      .then(() => console.log(createAt))
+      .catch(err => console.log(err));
+  }
+
+  for (i = 1; i < 7; i += 1) {
+    const createAt = new Date(`${year},${month},${day - i}`).toISOString();
+    const data = { value: i % 3, createAt };
+    axios.post(`${url}/data/mcu`, data, config)
+      .then(() => console.log(createAt))
+      .catch(err => console.log(err));
+  }
+
+  for (i = 8; i < 12; i += 1) {
+    const createAt = new Date(`${year},${month},${day - i}`).toISOString();
+    const data = { value: i % 3, createAt };
+    axios.post(`${url}/data/mcu`, data, config)
+      .then(() => console.log(createAt))
+      .catch(err => console.log(err));
+  }
+
+  for (i = 0; i < 4; i += 1) {
+    const createAt = new Date(`${year},${month - 1},${day}`).toISOString();
     const data = { value: i % 3, createAt };
     axios.post(`${url}/data/mcu`, data, config)
       .then(() => console.log(createAt))
