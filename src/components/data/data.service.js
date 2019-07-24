@@ -22,34 +22,27 @@ const take = async (user) => {
   if (!await checkUser(user)) throw error(401, 'Usuário não autorizado');
   try {
     const date = new Date();
-    // getMonth está devolvendo -1, logo janeiro está com 0;
-    // buscar os dados de um mês atrás, logo não precisad e colocar -1
-    const year = (date.getMonth() === 0) ? date.getFullYear() - 1 : date.getFullYear();
-    const month = (date.getMonth() === 0) ? 12 : date.getMonth();
-    const today = date.getDate();
+    date.setHours(0, 0, 0, 0);
+    const timestamp = date.getTime();
 
+    // TODO: Removendo 30 dias. Verificar qual é o mês e remover o valor correto
     const data = await Data.find({
       createAt: {
-        $gte: new Date(`${year},${month},${today}`).toISOString(),
+        $gte: new Date(timestamp - (86400000 * 30)),
       },
     });
 
     const response = data.reduce((acc, cur) => {
       const objDate = new Date(cur.createAt);
-      const objMonth = objDate.getMonth();
-      const objDay = objDate.getDate();
-      let attr = '';
+      const objTimestamp = objDate.getTime();
 
-      // hoje: 23 de julho
-      // semana: 17 de julho até 22 de julho (hoje não incluso)
-      // mês: 23 de junho até 16 de julho (semana não inclusa)
-      // TODO: arrumar semana em que parte está em um mês e parte no outro mês
-      if (objMonth !== month) attr = 'month';
-      else if (objDay === today) attr = 'today';
-      else if (objDay > today - 7) attr = 'week';
-      else attr = 'month';
-
-      acc[attr][cur.value] += 1;
+      if (objTimestamp >= timestamp) {
+        acc.today[cur.value] += 1;
+      }
+      if (objTimestamp >= (timestamp - (86400000 * 7))) {
+        acc.week[cur.value] += 1;
+      }
+      acc.month[cur.value] += 1;
 
       return acc;
     }, {
